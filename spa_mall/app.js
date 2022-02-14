@@ -11,16 +11,16 @@ connect();
 
 // require은 package를 불러오는 함수이다.
 const goodsRouter = require("./routes/goods");
-const cartsRouter = require('./routes/carts')
-// .js는 생략 가능
+//const cartsRouter = require('./routes/carts')// .js는 생략 가능
 
 const requestMiddleware = (req, res, next) => {
     console.log("Request URL :", req.originalUrl, " - ", new Date());
     next();
 }
 
+app.use(express.static('static'));
 app.use(express.json());
-
+app.use(express.urlencoded());
 app.use(requestMiddleware);
 /*
 app.use((req, res, next) => {
@@ -48,7 +48,7 @@ app.use((req, res, next) => {
 // 받을 수 있다.
 */
 
-app.use("/api", [goodsRouter, cartsRouter])
+app.use("/api", [goodsRouter]);
 // /api로 들어왔을 떄, [goodsRouter, cartsRouter]의 함수가 실행된다.
 // 뒤에 함수를 [f1, f2]로 설정하여 각각에 대해 검사도 가능하다.
 // 여기선, /api로 들어왔을 때 해당 뒷 부분에 따라서 goodsRouter가 동작한다.
